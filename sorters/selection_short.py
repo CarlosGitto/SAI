@@ -1,4 +1,5 @@
 from sorters.base import SortingStrategy
+from sai.utils import swap_elements
 
 class SelectionSort(SortingStrategy):
     def sort(self, data):
@@ -9,7 +10,8 @@ class SelectionSort(SortingStrategy):
                     min_index = j
 
             if min_index != i:
-                holder = data[min_index]
-                data[min_index] = data[i]
-                data[i] = holder
-            print(data)
+                swap_elements(data, i, min_index)
+        return data
+    
+    def __str__(self):
+        return "SelectionSort"

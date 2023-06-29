@@ -7,10 +7,10 @@ class SortingStrategy(ABC):
         pass
 
 class Sorter:
-    def __init__(self, strategy):
+    def __init__(self, strategy: SortingStrategy):
         self.strategy = strategy
 
-    def set_strategy(self, strategy):
+    def set_strategy(self, strategy: SortingStrategy):
         self.strategy = strategy
 
     def sort_data(self, data):

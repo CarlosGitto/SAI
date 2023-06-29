@@ -37,4 +37,6 @@ class MergeSort(SortingStrategy):
             right.pop(0)
 
         return merge_array
+    def __str__(self):
+        return "MergeSort"
    
