@@ -1,31 +1,24 @@
 from sorters.base import SortingStrategy
 
+
 class CountingSort(SortingStrategy):
-    def sort(self, data, exp: int = 1, is_radix: bool = False):
-        n = len(data)
-        output = [0] * (n)
-        if is_radix:
-            count = [0] * (10)
-        else:
-            count = [0] * max(data)
+    def sort(self, data):
+        # Find the maximum element in the array
+        max_value = max(data)
 
-        for i in range(0,n):
-            index = data[i] // exp
-            count[index % 10] +=1
-        
-        for i in range(1,10):
-            count[i] += count[i-1]
-        i = n-1
-        while i>=0:
-            index = data[i] // exp
-            output[count[index % 10] - 1] = data[i]
-            count[index % 10] -= 1
-            i -= 1
+        # Create a counting array of size max_value+1 filled with zeros
+        count = [0] * (max_value + 1)
 
-        for i in range(0, len(data)):
-            data[i] = output[i]
+        # Count the occurrences of each element
+        for val in data:
+            count[val] += 1
 
-        return data
-            
+        # Generate the sorted output
+        sorted_arr = []
+        for i in range(len(count)):
+            sorted_arr.extend([i] * count[i])
+
+        return sorted_arr
+
     def __str__(self):
         return "CountingSort"

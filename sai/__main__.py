@@ -1,44 +1,40 @@
-import random 
+import sys
+from sai.utils import get_int_data_1, SorterFactory
 import time
-from sorters.base import Sorter
-from sorters.bubble_sort import BubbleSort
-from sorters.counting_sort import CountingSort
-from sorters.heap_sort import HeapSort
-from sorters.insertion_sort import InsertionSort
-from sorters.merge_sort import MergeSort
-from sorters.quick_sort import QuickSort
-from sorters.radix_sort import RadixSort
-from sorters.selection_short import SelectionSort
-from sorters.shell_sort import ShellSort
+import numpy as np
+import glob
 
-sorters = [
- BubbleSort,
- CountingSort,
- HeapSort,
- InsertionSort,
- MergeSort,
-#  QuickSort,
- RadixSort,
- SelectionSort,
-#  ShellSort,
-]
-data = random.sample(range(0, 100_000), 10)
-# data = [2,8,5,3,9,4,1]
-solution = sorted(data)
-print("DATA LENGTH: ", len(data),"\n\n")
+args = sys.argv
+
+try:
+    min_value = int(args[1])
+    max_value = int(args[2])
+    size = int(args[3])
+    strat = args[4]
+except:
+    print(f"Correct usage of SAI is: python -m sai MIN MAX SAMPLE_SIZE SORTER_NAME")
+    sys.exit(1)
+
 st = time.time()
-for sorter in sorters:
-    s = time.time()
-    w = data.copy()
-    x = Sorter(sorter())
-    y = x.sort_data(w)
-    print(f"{sorter()}\t\t {time.time()-s} seconds")
-    if y != solution:
-        
-        e = '^' * len(str(sorter()))
-        print(f'{e} -> Bad solution!')
-        print(solution)
-        print(y)
-    print()
 
-print(f"\n\nTOTAL TIME: {time.time()-st} seconds --\n")
+print("Loading data...")
+experiment_data_np = get_int_data_1(min_value, max_value, size)
+print()
+experiment_data = experiment_data_np.tolist()
+print(
+    f"\tData loaded in ---- {round(time.time() - st,4)}seconds",
+)
+sorter = SorterFactory().create_sorter(strat)
+sorted_data, elapsed_time = sorter.sort_data(experiment_data.copy())
+success = sorted_data == sorted(experiment_data.copy())
+print(f"\tSorter: {str(sorter)}")
+print(f"\tSuccess: {success}\n\tElapsed Time: {round(elapsed_time, 4)} seconds.\n\n")
+path = f"./analysis/results/{str(sorter)}.csv"
+paths = glob.glob(path)
+if len(paths) > 0:
+    with open(path, "a") as f:
+        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value} {success}\n")
+else:
+    with open(path, "a+") as f:
+        f.write("elapsed_time,size,min_value,max_value,success\n")
+        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value} {success}\n")

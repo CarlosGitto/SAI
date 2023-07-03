@@ -29,4 +29,18 @@ python setup.py develop
 python -m sai
 ```
 
+## Run
+
+```bash
+sorters=("bubble" "merge" "heap" "insertion" "radix" "counting" "quick" "selection" "shell")
+for i in {1..100}
+do
+for sorter in $sorters
+do
+    cat './sai/experiment_args.txt' |
+    parallel --bar --colsep ' ' "python -m sai {} $sorter"
+done
+done
+```
+
 WIP
