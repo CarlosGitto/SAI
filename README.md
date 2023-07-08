@@ -36,4 +36,8 @@ cat './sai/experiment_args.txt' |
 parallel --bar --colsep ' ' "python -m sai {}"
 ```
 
+## Results
+
+Go to [results](./analysis/analysis.ipynb)
+
 WIP
