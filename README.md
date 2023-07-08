@@ -1,18 +1,12 @@
-# Sorting Algorithms Analysis
+# Sorting Algorithms Insights (SAI)
 
-This project aims to provide a comprehensive analysis and insights into various sorting algorithms. It offers a collection of sorting algorithms implemented in Python, along with features for performance evaluation, data visualization, and data analysis. The project is designed to help users understand the characteristics, efficiency, and trade-offs of different sorting methods.
+🚩🚩🚩 This project is under development 🚩🚩🚩
 
-## Features
+## Introduction:
 
-- **Implemented Sorting Algorithms:** The project includes several popular sorting algorithms, such as Bubble Sort, Insertion Sort, Selection Sort, Merge Sort, Heap Sort, Quick Sort, etc.
+The Sorting Algorithms Insights (SAI) project aims to analyze and gain insights into the behavior of different sorting algorithms under various parameters. The project explores nine commonly used sorting algorithms, including bubble sort, merge sort, heap sort, insertion sort, radix sort, counting sort, quicksort, selection sort, and shell sort. By examining the algorithms' performance across different sample sizes and ranges of minimum and maximum values, the project seeks to provide valuable insights on the optimal usage scenarios for each sorting algorithm.
 
-- **Performance Evaluation:** Users can measure and compare the time efficiency of different sorting algorithms using provided datasets. Execution time, memory usage, and other relevant metrics can be analyzed to determine the efficiency of each algorithm.
-
-- **Data Analysis:** The project allows users to perform data analysis on the sorted outputs. Insights can be gained by analyzing patterns, trends, and outliers in the sorted data.
-
-- **Data Visualization:** Visualizations are provided to illustrate the sorting process and outcomes. Animations and graphs help users better understand how the elements move and the performance characteristics of each algorithm.
-
-- **Insights and Recommendations:** Detailed explanations, strengths, weaknesses, and best-case/worst-case scenarios are provided for each sorting algorithm. Users can gain insights into the behavior and suitability of algorithms for different data distributions.
+To conduct the analysis, a series of experiments are run using a Python script called "sai". This script generates random arrays based on the specified parameters and applies the selected sorting algorithm to sort the arrays. The elapsed time for each sorting operation is recorded, along with the size, minimum value, maximum value, and a flag indicating the success of the sorting process. The results of each experiment are saved in separate CSV files for each sorting algorithm.
 
 ## Getting Started
 
@@ -26,10 +20,8 @@ To get started with the project, follow these steps:
 
 ```sh
 python setup.py develop
-python -m sai
+python ./sai/data_generation.py
 ```
-
-## Run
 
 ```bash
 cat './sai/experiment_args.txt' |
@@ -39,5 +31,3 @@ parallel --bar --colsep ' ' "python -m sai {}"
 ## Results
 
 Go to [results](./analysis/analysis.ipynb)
-
-WIP
