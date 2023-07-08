@@ -33,8 +33,8 @@ path = f"./analysis/results/{str(sorter)}.csv"
 paths = glob.glob(path)
 if len(paths) > 0:
     with open(path, "a") as f:
-        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value} {success}\n")
+        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}\n")
 else:
-    with open(path, "a+") as f:
+    with open(path, "w+") as f:
         f.write("elapsed_time,size,min_value,max_value,success\n")
-        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value} {success}\n")
+        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}\n")
