@@ -43,13 +43,16 @@ print("Step 3 completed.")
 # Combine the repeated matrix and tiled combinations along the columns
 result = np.concatenate((repeated_matrix, tiled_combinations), axis=1)
 print("Step 4 completed.")
-et = time.time()
+
+experiments_args = np.repeat(result, 1000, axis=0)
+print("Step 5 completed.")
 
 file_path = "./sai/experiment_args.txt"
-np.savetxt(file_path, result, delimiter=" ", fmt="%s")
-print("Step 5 completed.")
+np.savetxt(file_path, experiments_args, delimiter=" ", fmt="%s")
+print("Step 6 completed.")
+et = time.time()
 
 
 print(
-    f"\nArguments generated: {result.shape[0]:_}\nTime to complete: {round(et-st, 4)} seconds.\nArguments file path: {file_path}"
+    f"\nArguments generated: {experiments_args.shape[0]:_}\nTime to complete: {round(et-st, 4)} seconds.\nArguments file path: {file_path}"
 )
