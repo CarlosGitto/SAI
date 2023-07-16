@@ -17,14 +17,11 @@ except:
 
 # Generate Dataset
 dataset = generate_dataset(min_value, max_value, size)
-
 # Create sorter based on sorter type
 sorter = SorterFactory().create_sorter(strat)
 
 # Sort generated data
-sorted_data, elapsed_time, success, curr_mem_size, peak_memory_usage = sorter.sort_data(
-    dataset
-)
+result = sorter.sort_data(dataset)
 
 # Write results to corresponding file
 path = f"./analysis/results/{str(sorter)}.csv"
@@ -32,13 +29,18 @@ paths = glob.glob(path)
 if len(paths) > 0:
     with open(path, "a") as f:
         f.write(
-            f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}, {curr_mem_size}, {peak_memory_usage}\n"
+            f"{size},{min_value},{max_value}"
+            + ",".join(str(item) for item in result)
+            + "\n"
         )
+
 else:
     with open(path, "w+") as f:
         f.write(
-            "elapsed_time,size,min_value,max_value,success,memory_size,memory_peak\n"
+            "size,min_value,max_value,elapsed_time,memory_size,memory_peak,success,inp_sorted,out_sorted,success,error\n"
         )
         f.write(
-            f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}, {curr_mem_size}, {peak_memory_usage}\n"
+            f"{size},{min_value},{max_value}"
+            + ",".join(str(item) for item in result)
+            + "\n"
         )
