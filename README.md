@@ -20,7 +20,7 @@ To get started with the project, follow these steps:
 
 ```sh
 python setup.py develop
-python ./sai/data_generation.py
+python ./sai/arguments_generation.py
 ```
 
 - Correct `sai` usage: "python -m sai MIN MAX DATASET_SIZE SORTER_NAME"
