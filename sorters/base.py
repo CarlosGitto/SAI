@@ -13,25 +13,25 @@ def profiler(sorter_func):
 
         # Get memory befor start
         tracemalloc.start()
-        print(tracemalloc.get_traced_memory())
         # Sort
-        sorted_data = sorter_func(*args, **kwargs)
+        sorted_data, error = sorter_func(*args, **kwargs)
 
         # Calculate consumed memory
-        print(tracemalloc.get_traced_memory())
         curr_size, peak = tracemalloc.get_traced_memory()
         # Get elapsed time
         elapsed_time = perf_counter() - time_start
 
         # Get success status
-        success = sorted_data == sorted(list_to_sort)
+        start_sorted = list_to_sort == sorted(list_to_sort)
+        end_sorted = sorted_data == sorted(list_to_sort)
+        success = error == None
 
         # Show insights as logs
         print(
-            f"""{sorter_name}\n\tCurrent size memory: {curr_size} bytes.\n\tPeak memory usage: {peak}\n\tSuccess: {success}.\n\tElapsed Time: {round(elapsed_time,4)} seconds.\n\t"""
+            f"""{sorter_name}\n\tCurrent size memory: {curr_size} bytes.\n\tPeak memory usage: {peak} bytes.\n\tInput Data Sorted: {start_sorted}.\n\tOutput Data Sorted: {end_sorted}.\n\tSuccess: {success}.\n\tError: {error}\n\tElapsed Time: {round(elapsed_time,4)} seconds.\n\t"""
         )
 
-        return sorted_data, elapsed_time, success, curr_size, peak
+        return (elapsed_time, curr_size, peak, start_sorted, end_sorted, success, error)
 
     return wrapper
 
@@ -59,4 +59,16 @@ class Sorter:
 
     @profiler
     def sort_data(self, data):
-        return self.strategy.sort(data)
+        e = None
+        try:
+            sorted_data = self.strategy.sort(data)
+        except RecursionError as error:
+            sorted_data = data
+            e = error
+        except ValueError as error:
+            sorted_data = data
+            e = error
+        except IndexError as error:
+            sorted_data = data
+            e = error
+        return sorted_data, e
