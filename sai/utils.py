@@ -1,6 +1,6 @@
 import random
 import numpy as np
-
+import time
 
 from sorters.bubble_sort import BubbleSort
 from sorters.counting_sort import CountingSort
@@ -49,3 +49,14 @@ def get_float_data(min: float, max: float, size: int, repeat: bool) -> list[floa
     if repeat:
         return [random.randint(min, max) for i in range(0, size)]
     return [random.randint(min, max) for i in range(0, size)]
+
+
+def generate_dataset(min: int, max: int, size: int) -> list:
+    st = time.time()
+    print("Generating dataset...")
+    experiment_data_np = get_int_data_1(min, max, size)
+    experiment_data = experiment_data_np.tolist()
+    print(
+        f"Data loaded in ---- {round(time.time() - st,4)}seconds.\n",
+    )
+    return experiment_data
