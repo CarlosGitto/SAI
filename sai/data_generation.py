@@ -1,13 +1,9 @@
-import os
-from sai.utils import get_int_data_1
-import random
-from sai.utils import STRAT_TO_CLASS
+from itertools import combinations, product
+import numpy as np
+import time
 
+st = time.time()
 ranges = [
-    # -10_000,
-    # -1_000,
-    # -100,
-    # -10,
     0,
     1,
     10,
@@ -15,12 +11,12 @@ ranges = [
     1_000,
     10_000,
     100_000,
-    1_000_000,
-    10_000_000,
-    100_000_000,
 ]
-sizes = [1, 10, 100, 1_000, 5_000, 10_000, 15_000, 25_000, 50_000, 75_000, 100_000]
-arg = ""
+min_max_comb = list(combinations(ranges, 2))
+matrix = np.array(min_max_comb)
+sizes = np.array(
+    [1, 10, 100, 1_000, 3_000, 5_000, 10_000, 15_000, 35_000, 50_000, 75_000, 100_000]
+)
 sorters = [
     "bubble",
     "merge",
@@ -32,14 +28,28 @@ sorters = [
     "selection",
     "shell",
 ]
-for _ in range(5_000):
-    for i in sizes:
-        for id, j in enumerate(ranges):
-            for k in ranges[id + 1 :]:
-                for sorter in sorters:
-                    if id + 1 < len(ranges):
-                        if k != j:
-                            arg += f"{j} {k} {i} {sorter}\n"
 
-with open("./sai/experiment_args.txt", "w+") as f:
-    f.write(arg)
+# Compute the combinations of sizes and sorters
+pos_combinations = list(product(sizes, sorters))
+print("Step 1 completed.")
+# Repeat the matrix rows to match the number of combinations
+repeated_matrix = np.repeat(matrix, len(pos_combinations), axis=0)
+print("Step 2 completed.")
+
+# Tile the combinations to match the number of rows in the repeated matrix
+tiled_combinations = np.tile(pos_combinations, (len(matrix), 1))
+print("Step 3 completed.")
+
+# Combine the repeated matrix and tiled combinations along the columns
+result = np.concatenate((repeated_matrix, tiled_combinations), axis=1)
+print("Step 4 completed.")
+et = time.time()
+
+file_path = "./sai/experiment_args.txt"
+np.savetxt(file_path, result, delimiter=" ", fmt="%s")
+print("Step 5 completed.")
+
+
+print(
+    f"\nArguments generated: {result.shape[0]:_}\nTime to complete: {round(et-st, 4)} seconds.\nArguments file path: {file_path}"
+)
