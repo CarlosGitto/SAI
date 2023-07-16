@@ -1,5 +1,5 @@
 import sys
-from sai.utils import get_int_data_1, SorterFactory
+from sai.utils import generate_dataset, SorterFactory
 import time
 import numpy as np
 import glob
@@ -12,29 +12,33 @@ try:
     size = int(args[3])
     strat = args[4]
 except:
-    print(f"Correct usage of SAI is: python -m sai MIN MAX SAMPLE_SIZE SORTER_NAME")
+    print(f"Correct usage of SAI is: python -m sai MIN MAX DATASET_SIZE SORTER_NAME")
     sys.exit(1)
 
-st = time.time()
+# Generate Dataset
+dataset = generate_dataset(min_value, max_value, size)
 
-print("Loading data...")
-experiment_data_np = get_int_data_1(min_value, max_value, size)
-print()
-experiment_data = experiment_data_np.tolist()
-print(
-    f"\tData loaded in ---- {round(time.time() - st,4)}seconds",
-)
+# Create sorter based on sorter type
 sorter = SorterFactory().create_sorter(strat)
-sorted_data, elapsed_time = sorter.sort_data(experiment_data.copy())
-success = sorted_data == sorted(experiment_data.copy())
-print(f"\tSorter: {str(sorter)}")
-print(f"\tSuccess: {success}\n\tElapsed Time: {round(elapsed_time, 4)} seconds.\n\n")
+
+# Sort generated data
+sorted_data, elapsed_time, success, curr_mem_size, peak_memory_usage = sorter.sort_data(
+    dataset
+)
+
+# Write results to corresponding file
 path = f"./analysis/results/{str(sorter)}.csv"
 paths = glob.glob(path)
 if len(paths) > 0:
     with open(path, "a") as f:
-        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}\n")
+        f.write(
+            f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}, {curr_mem_size}, {peak_memory_usage}\n"
+        )
 else:
     with open(path, "w+") as f:
-        f.write("elapsed_time,size,min_value,max_value,success\n")
-        f.write(f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}\n")
+        f.write(
+            "elapsed_time,size,min_value,max_value,success,memory_size,memory_peak\n"
+        )
+        f.write(
+            f"{elapsed_time}, {size}, {min_value}, {max_value}, {success}, {curr_mem_size}, {peak_memory_usage}\n"
+        )
