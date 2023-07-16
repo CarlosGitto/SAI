@@ -23,11 +23,17 @@ python setup.py develop
 python ./sai/data_generation.py
 ```
 
+- Correct `sai` usage: "python -m sai MIN MAX DATASET_SIZE SORTER_NAME"
+
 ```bash
+# Normal run
+python -m sai 0 100 10 bubble
+
+# Run with GNU parallel
 cat './sai/experiment_args.txt' |
 parallel --bar --colsep ' ' "python -m sai {}"
 ```
 
-## Results
+## Results and Conclusions
 
 Go to [results](./analysis/analysis.ipynb)
