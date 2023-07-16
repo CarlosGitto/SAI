@@ -25,10 +25,12 @@ class RandomizedQuickSort(SortingStrategy):
         i = low + 1
 
         for j in range(low + 1, high + 1):
-            if data[j] <= data[pivot]:
-                swap_elements(data, i, j)
+            if data[j] < data[pivot]:
+                if j != i:
+                    swap_elements(data, i, j)
                 i = i + 1
-        swap_elements(data, pivot, i - 1)
+        if i - 1 != pivot:
+            swap_elements(data, pivot, i - 1)
         pivot = i - 1
         return pivot
 
