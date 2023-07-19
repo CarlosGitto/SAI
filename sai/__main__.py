@@ -29,7 +29,7 @@ paths = glob.glob(path)
 if len(paths) > 0:
     with open(path, "a") as f:
         f.write(
-            f"{size},{min_value},{max_value}"
+            f"{size},{min_value},{max_value},"
             + ",".join(str(item) for item in result)
             + "\n"
         )
@@ -40,7 +40,7 @@ else:
             "size,min_value,max_value,elapsed_time,memory_size,memory_peak,success,inp_sorted,out_sorted,success,error\n"
         )
         f.write(
-            f"{size},{min_value},{max_value}"
+            f"{size},{min_value},{max_value},"
             + ",".join(str(item) for item in result)
             + "\n"
         )
