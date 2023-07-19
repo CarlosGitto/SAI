@@ -15,7 +15,8 @@ class RandomizedQuickSort(SortingStrategy):
 
     def random_partition(self, data, low, high):
         random_pivot = random.randrange(low, high)
-        swap_elements(data, low, random_pivot)
+        if random_pivot != low:
+            swap_elements(data, low, random_pivot)
 
         return self.partition(data, low, high)
 
