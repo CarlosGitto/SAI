@@ -44,8 +44,12 @@ print("Step 3 completed.")
 result = np.concatenate((repeated_matrix, tiled_combinations), axis=1)
 print("Step 4 completed.")
 
-experiments_args = np.repeat(result, 1000, axis=0)
+experiments_args = np.repeat(result, 30, axis=0)
 print("Step 5 completed.")
+
+# Sort argumens base on the size of the sample argument
+experiments_args = experiments_args[experiments_args[:, 2].argsort()]
+print("Step 6 completed")
 
 file_path = "./sai/experiment_args.txt"
 np.savetxt(file_path, experiments_args, delimiter=" ", fmt="%s")
