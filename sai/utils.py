@@ -53,7 +53,7 @@ def get_float_data(min: float, max: float, size: int, repeat: bool) -> list[floa
 
 def generate_dataset(min: int, max: int, size: int) -> list:
     st = time.time()
-    print("Generating dataset...")
+    print(f"Generating dataset...(mn:{min}, mx:{max}, s:{size})")
     experiment_data_np = get_int_data_1(min, max, size)
     experiment_data = experiment_data_np.tolist()
     print(
