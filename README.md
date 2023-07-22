@@ -8,13 +8,15 @@ The Sorting Algorithms Insights (SAI) project aims to analyze and gain insights 
 
 All the algorithms mention abobe can be found on the directory ./sorters each in their own file, under their own name.
 
-To conduct the analysis, a series of experiments are run using a Python script called "sai". This script generates random arrays based on the specified parameters and applies all the sorting algorithms to sort to each generated array. The elapsed time for each sorting operation is recorded, along with the size, minimum value, maximum value, memory used, peak of memory used, if the input was sorted, if the output was sorted, and a flag indicating the success or not of the algorithm, if the success flag is false, it means an error ocurr while running the sorting algorithm, this error will also be recorded. The results of the experiments will be store in a **.parquet** file with an unique id as name on the directory **./analysis/results** (this id is generated with `uuid` module from python, more specificly `uuid.uuid4()`).
+To conduct the analysis, a series of experiments are run using a Python script called "sai". This script generates random arrays based on the specified parameters and applies all the sorting algorithms to sort to each generated array. The elapsed time for each sorting operation is recorded, along with the size, minimum value, maximum value, peak of memory used by the sorting algorithm, if the input was sorted, if the output was sorted, and a flag indicating the success or not of the algorithm, if the success flag is false, it means an error ocurr while running the sorting algorithm, this error will also be recorded. The results of the experiments will be store in a **.parquet** file with an unique id as name on the directory **./analysis/results** (this id is generated with `uuid` module from python, more specificly `uuid.uuid4()`).
 
 Its also worth to mention that if any system interruption ocurr during the excecution of the experiments, python will try to write the obtained results so far to the results directory mentioned earlier.
 
 ## About the program
 
 As mention before this program takes some parameters, generates a dataset and run all different sorting allgorithms over this dataset. Each result of each sorting algorithm is stored in a single dataframe than then is stored as a parquet file.
+
+Is important to notice that the times toked by each algorithm may bary depending on the equipment used to run SAI, and the time is heavily impacted by the use of the tracemalloc module. This module is necessary to trace the peak of memory reach when doing experiments.
 
 You can opt tu run this program normal or taking advantage of GNU parallel multiprocessing, this program is written with the intention to do so. All the operations done are done single threaded.
 
@@ -58,5 +60,3 @@ parallel --bar --termseq INT,1000,TERM,2000 python -m sai ::: {0..$N}
 ## How to Analyse
 
 A complete analysis over the generated results can done using this [Jupyter notebook](./analysis/analysis.ipynb)
-
-TODO: Mesure memory of each coroutine independently
