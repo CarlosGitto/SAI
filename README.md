@@ -14,9 +14,7 @@ Its also worth to mention that if any system interruption ocurr during the excec
 
 ## About the program
 
-As mention before this program takes some parameters, gneerates a dataset and run all different sorting allgorithms over this dataset. Each result of each sorting algorithm is stored in a single dataframe than then is stored as a parquet file.
-
-To run all this different algorithms over the same dataset, it was opted to use an async/await approach using the python asyncio module.
+As mention before this program takes some parameters, generates a dataset and run all different sorting allgorithms over this dataset. Each result of each sorting algorithm is stored in a single dataframe than then is stored as a parquet file.
 
 You can opt tu run this program normal or taking advantage of GNU parallel multiprocessing, this program is written with the intention to do so. All the operations done are done single threaded.
 

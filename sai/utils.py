@@ -86,6 +86,6 @@ def generate_dataset(min_value: int, max_value: int, size: int) -> list:
     experiment_data_np = get_int_data_1(min_value, max_value, size)
     experiment_data = experiment_data_np.tolist()
     print(
-        f"Data loaded in ---- {round(time.time() - st,4)}seconds.\n",
+        f"Dataset generated in ---- {round(time.time() - st,4)}seconds.\n",
     )
     return experiment_data, sorted(experiment_data.copy())
