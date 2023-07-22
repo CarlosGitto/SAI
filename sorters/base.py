@@ -8,22 +8,22 @@ def profiler(sorter_func):
         sorter_name = str(args[0])
         list_to_sort = args[1].copy()
 
+        # Start tracing memory
+        tracemalloc.start()
+
         # Start time
         time_start = perf_counter()
-
-        # Get memory befor start
-        tracemalloc.start()
         # Sort
         sorted_data, error = sorter_func(*args, **kwargs)
 
-        # Calculate consumed memory
-        curr_size, peak = tracemalloc.get_traced_memory()
-
-        # Stop tracing memory usage
-        tracemalloc.stop()
-
         # Get elapsed time
         elapsed_time = perf_counter() - time_start
+
+        # Calculate peak memory
+        _, peak = tracemalloc.get_traced_memory()
+
+        # Stop tracing memory
+        tracemalloc.stop()
 
         # Get success status
         start_sorted = list_to_sort == sorted(list_to_sort)
@@ -32,13 +32,12 @@ def profiler(sorter_func):
 
         # Show insights as logs
         print(
-            f"""{sorter_name}\n\tCurrent size memory: {0} bytes.\n\tPeak memory usage: {peak} bytes.\n\tInput Data Sorted: {start_sorted}.\n\tOutput Data Sorted: {end_sorted}.\n\tSuccess: {success}.\n\tError: {error}\n\tElapsed Time: {round(elapsed_time,4)} seconds.\n\t"""
+            f"""{sorter_name}\n\tPeak memory usage: {peak} bytes.\n\tInput Data Sorted: {start_sorted}.\n\tOutput Data Sorted: {end_sorted}.\n\tSuccess: {success}.\n\tError: {error}\n\tElapsed Time: {round(elapsed_time,4)} seconds.\n\t"""
         )
 
         return (
             sorter_name,
             elapsed_time,
-            curr_size,
             peak,
             start_sorted,
             end_sorted,
