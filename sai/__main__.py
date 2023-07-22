@@ -5,6 +5,7 @@ import pandas as pd
 import uuid
 import sys
 import time
+import tracemalloc
 
 st = time.time()
 
@@ -14,7 +15,7 @@ def sort_data(sorter: Sorter, data: list):
 
 
 # PATHs
-UNIQUE_ID = uuid.uuid4()
+UNIQUE_ID = uuid.uuid4().hex
 OUT_PATH = f"./analysis/results/{UNIQUE_ID}.parquet"
 LOG_PATH = f"./analysis/logs/{UNIQUE_ID}.log"
 logg = Logger(LOG_PATH).logger
@@ -25,7 +26,6 @@ sorters = SorterFactory().create_all_sorters()
 # Init result dataframe
 result_df = pd.DataFrame(columns=RESULT_COLUMNS)
 config_data = []
-
 try:
     for (dataset, sorted_dataset), *dataset_config in dataset_generator(
         ranges=RANGES, sizes=SIZES, repeat=REPEAT_NUM
@@ -43,6 +43,7 @@ try:
 
         # Save config used
         config_data.extend((dataset_config,) * len(results))
+
 except KeyboardInterrupt:
     logg.warning(
         f"Cancel before all experiments were completed.",
